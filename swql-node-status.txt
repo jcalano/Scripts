@@ -1,0 +1,30 @@
+SELECT
+  FullName,
+  Bps,
+  LastSync,
+  Alias,
+  IfName,
+  InterfaceName,
+  InterfaceAlias,
+  InterfaceLastChange,
+  Status,
+  Description,
+  COUNT(1) as value,
+  Status,
+  CASE WHEN Bps >= 10000 THEN 'cradlepoint_online' WHEN Bps = 0 THEN 'status_down' WHEN BPS <= 9999 THEN 'cradlepoint_normal' ELSE 'status_unknown' END as icon,
+  CASE WHEN Status = 1 THEN 'yellow' WHEN Status = 14 THEN 'red' WHEN Status = 3 THEN 'green' ELSE 'gray' END as color
+FROM Orion.NPM.Interfaces
+WHERE FullName LIKE '%Cradlepoint%' AND Bps > 100000
+GROUP BY
+  FullName,
+  Bps,
+  LastSync,
+  Alias,
+  IfName,
+  InterfaceName,
+  InterfaceAlias,
+  InterfaceLastChange,
+  Status,
+  Description, 
+  icon,
+  color;

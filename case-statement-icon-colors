@@ -1,0 +1,5 @@
+SELECT COUNT(1) as value, Status,
+	CASE WHEN Status = 1 THEN 'status_up' WHEN Status =14 THEN 'status_down' WHEN Status =3 THEN 'status_warning' ELSE 'status_unknown' END as icon,
+       CASE WHEN Status = 1 THEN 'green' WHEN Status =14 THEN 'red' WHEN Status = 3 THEN 'yellow' ELSE 'gray' 
+END as color
+FROM Orion.Nodes GROUP BY status ORDER BY value DESC
