@@ -24,3 +24,5 @@ It then calls the *** SqlServerServicesControllerl.ps1 *** to get things started
 This can be labled as a .bat file as well.  All this does is call the *** StartSQLServerController.ps1 *** script.
 I use it as the launcher to copy to the desktop so the other two files can be located in the same folder.
 
+ SQL Server Services Controller © 2024 by Jim Calano is licensed under CC BY-NC-SA 4.0 
+
