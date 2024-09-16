@@ -1,4 +1,7 @@
-﻿# Add this at the beginning of your script to hide the PowerShell console window
+#***********************************
+#*** Hide the PowerShell window  ***
+#***********************************
+#
 Add-Type @"
 using System;
 using System.Runtime.InteropServices;
@@ -10,25 +13,50 @@ public class Win32 {
 
 $consoleWindow = [System.Diagnostics.Process]::GetCurrentProcess().MainWindowHandle
 [Win32]::ShowWindow($consoleWindow, 0)  # 0 = SW_HIDE to hide the window
+#***********************************
+#*** End Hide PowerShell window  ***
+#***********************************
 
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
+#***********************************
+#*** Create the form container   ***
+#***********************************
 
 $form = New-Object System.Windows.Forms.Form
 $form.Text = "SQL Server Services Controller"
 $form.Size = New-Object System.Drawing.Size(345, 750)
+#***********************************
+#***    Create the list box      ***
+#***********************************
 
 $listBox = New-Object System.Windows.Forms.ListBox
 $listBox.Size = New-Object System.Drawing.Size(310, 654)
 $listBox.Location = New-Object System.Drawing.Point(10, 10)
 $listBox.SelectionMode = [System.Windows.Forms.SelectionMode]::MultiExtended
 $form.Controls.Add($listBox)
-
+#***********************************
+#***  End create the list box    ***
+#***********************************
+#***********************************
+#*** End Create form container   ***
+#***********************************
+#
+#***********************************
+#*** Set properties for buttons  ***
+#***********************************
 $defaultBtnProps = @{
     Width = 100
     Height = 30
 }
-
+#***********************************
+#*** End properties for buttons  ***
+#***********************************
+#
+#***********************************
+#*** Create buttons w/properties ***
+#***********************************
+#
 $startButton = New-Object System.Windows.Forms.Button -Property $defaultBtnProps
 $startButton.Text = "Start Service"
 $startButton.Location = New-Object System.Drawing.Point(10, 670)
@@ -66,9 +94,32 @@ $exitButton.Text = "Exit"
 $exitButton.Location = New-Object System.Drawing.Point(220, 670)
 $exitButton.Add_Click({ $form.Close() })
 $form.Controls.Add($exitButton)
-
+#***********************************
+#***  End buttons w/properties   ***
+#***********************************
+#
+#***********************************
+#*** Find SQL Service Instances  ***
+#***********************************
+#
 Get-Service | Where-Object { $_.DisplayName -like "SQL Server (*" } | ForEach-Object {
     $listBox.Items.Add($_.DisplayName)
 }
-
+#***********************************
+#*** End Find Service Instances  ***
+#***********************************
+#
+#***********************************
+#***       Show the form         ***
+#***********************************
+#
 $form.ShowDialog()
+#
+#***********************************
+#***        End show form        ***
+#***********************************
+#***********************************
+# SQL Server Services Controller   *
+# © 2024 by Jim Calano is licensed *
+# under CC BY-NC-SA 4.0            *
+#***********************************
